@@ -5,14 +5,11 @@ namespace AlumnosAPI.Model.Entities
 {
     public class Materia
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int MateriaId { get; set; }
+  
+        public int Id { get; set; }
         public string Nombre { get; set; }
 
-        public int Id { get; set; }
-        [ForeignKey("Id")]
-
-        public virtual Alumno alumno { get; set; }
+        public int AlumnoId { get; set; }
+    
     }
 }
