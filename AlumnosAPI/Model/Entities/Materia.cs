@@ -10,6 +10,8 @@ namespace AlumnosAPI.Model.Entities
         public string Nombre { get; set; }
 
         public int AlumnoId { get; set; }
+        [ForeignKey("AlumnoId")]
+        public virtual Alumno alumno { get; set; }  
     
     }
 }

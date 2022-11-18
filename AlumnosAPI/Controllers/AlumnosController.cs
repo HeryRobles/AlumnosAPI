@@ -60,7 +60,7 @@ namespace AlumnosAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id: int}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
             var alumnoDb = await context.Alumnos.FirstOrDefaultAsync(x => x.Id == id);
