@@ -1,5 +1,5 @@
-﻿using AlumnosAPI.Model.Entities;
-using AlumnosAPI.Model;
+﻿using AlumnosAPI.Model;
+using AlumnosAPI.Model.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +9,7 @@ namespace AlumnosAPI.Controllers
     public class MateriasController : ControllerBase
     {
         private readonly ApplicationDbContext context;
+        private ActionResult<List<Materia>> materias;
 
         public MateriasController(ApplicationDbContext context)
         {
@@ -16,13 +17,13 @@ namespace AlumnosAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Alumno>>> GetMaterias()
+        public async Task<ActionResult<List<Materia>>> GetMaterias()
         {
-            var alumnos = await context.Alumnos.ToListAsync();
-            return alumnos;
+            var materia = await context.Materias.ToListAsync();
+            return materias;
         }
 
-        [HttpGet ("{id:int}")]
+        [HttpGet("{id:int}")]
 
         public async Task<ActionResult<List<Materia>>> GetMateria(int id)
         {
@@ -32,7 +33,49 @@ namespace AlumnosAPI.Controllers
                 return NotFound();
             }
 
-            return materia;
+            return materias;
+
+           
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Add([FromBody] Materia materia)
+        {
+            context.Materias.Add(materia);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Edit(int id, [FromBody] Materia materia)
+        {
+            var materiaDb = await context.Materias.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (materiaDb == null)
+            {
+                return NotFound();
+            }
+
+            materiaDb.Nombre = materia.Nombre;
+
+            context.Materias.Update(materiaDb);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var materiaDb = await context.Materias.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (materiaDb == null)
+            {
+                return NotFound();
+            }
+
+            context.Materias.Remove(materiaDb);
+            await context.SaveChangesAsync();
+            return Ok();
         }
     }
 }
