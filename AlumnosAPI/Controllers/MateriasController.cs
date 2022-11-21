@@ -30,7 +30,7 @@ namespace AlumnosAPI.Controllers
             var materia = await context.Materias.SingleOrDefaultAsync(x => x.Id == id);
             if (materia == null)
             {
-                return NotFound();
+                return NotFound("Materia no encotrada");
             }
 
             return materias;
